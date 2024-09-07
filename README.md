@@ -24,7 +24,7 @@ To run this script, you will need:
  
 2. Install Dependencies: npm install
    
-##**Configuration**
+## configuration 
 Update Login and Feedback Page URLs:
    Open the feedbackAutomation.js file.
    Replace https://xxxxxx.com with the login URL of your web application.
