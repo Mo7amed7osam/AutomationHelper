@@ -59,7 +59,8 @@ async function giveFeedback(driver, comment) {
     console.log("WebDriver initialized.");
 
     // Navigate to the login page
-    await driver.get("https://demi.ischooltech.com/tutor");      // write here the login link to your website
+    await driver.get("https://demi.ischooltech.com/login/tutor");  
+        // write here the login link to your website
     console.log("Navigated to the login page.");
 
     //  log into ur account
