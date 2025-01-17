@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": " node feedbackAutomation.js"
+  },
   "dependencies": {
     "selenium": "^2.20.0",
     "selenium-webdriver": "^4.27.0"

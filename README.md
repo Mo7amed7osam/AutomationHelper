@@ -21,14 +21,14 @@ To run this script, you will need:
 ## Installation
 
 1. Clone the Repository
- 
-2. Install Dependencies: npm install
-   
-## configuration 
-Update Login and Feedback Page URLs:
-   Open the feedbackAutomation.js file.
-   Replace https://xxxxxx.com with the login URL of your web application.
-   Replace the feedback URL with the actual URL of the feedback page.
-   Adjust Script Parameters:
 
-   Modify the comment text in the giveFeedback function as needed.
+2. Install Dependencies: npm install
+
+3. Run Script : npm start
+
+## configuration
+
+Open the feedbackAutomation.js file.
+Adjust Script Parameters:
+
+Modify the comment text in the giveFeedback function as needed.
