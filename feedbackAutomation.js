@@ -1,5 +1,5 @@
-const { Builder, By, until } = require('selenium-webdriver');
-const fs = require('fs');
+const { Builder, By, until } = require("selenium-webdriver");
+const fs = require("fs");
 
 // Function to submit feedback with two 5-star ratings
 async function giveFeedback(driver, comment) {
@@ -7,23 +7,29 @@ async function giveFeedback(driver, comment) {
     console.log("Starting feedback submission process...");
 
     // Mark student as present (uncheck "absent")
-    const absentCheckbox = await driver.findElement(By.name("is_student_absent"));
+    const absentCheckbox = await driver.findElement(
+      By.name("is_student_absent")
+    );
     await driver.wait(until.elementIsVisible(absentCheckbox), 10000);
     await absentCheckbox.click();
     console.log("Checked the student as present.");
 
     // Select 5 stars for the first rating
-    const firstRating = await driver.findElement(By.css(
-      '#web-app-body-tag > div.modal-container.open.backdrop-shadow > div > div > div.modal-body > form > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > ul > li:nth-child(5)'
-    ));
+    const firstRating = await driver.findElement(
+      By.css(
+        "#web-app-body-tag > div.modal-container.open.backdrop-shadow > div > div > div.modal-body > form > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > ul > li:nth-child(5)"
+      )
+    );
     await driver.wait(until.elementIsVisible(firstRating), 10000);
     await firstRating.click();
     console.log("Selected 5 stars for the first rating.");
 
     // Select 5 stars for the second rating
-    const secondRating = await driver.findElement(By.css(
-      '#web-app-body-tag > div.modal-container.open.backdrop-shadow > div > div > div.modal-body > form > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > ul > li:nth-child(5)'
-    ));
+    const secondRating = await driver.findElement(
+      By.css(
+        "#web-app-body-tag > div.modal-container.open.backdrop-shadow > div > div > div.modal-body > form > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > ul > li:nth-child(5)"
+      )
+    );
     await driver.wait(until.elementIsVisible(secondRating), 10000);
     await secondRating.click();
     console.log("Selected 5 stars for the second rating.");
@@ -34,7 +40,9 @@ async function giveFeedback(driver, comment) {
     await commentDropdown.click();
     console.log("Clicked on the comment dropdown.");
 
-    const dropdownOption = await driver.findElement(By.xpath(`//option[. = '${comment}']`));
+    const dropdownOption = await driver.findElement(
+      By.xpath(`//option[. = '${comment}']`)
+    );
     await driver.wait(until.elementIsVisible(dropdownOption), 10000);
     await dropdownOption.click();
     console.log(`Selected the comment option: ${comment}`);
@@ -47,18 +55,18 @@ async function giveFeedback(driver, comment) {
   } catch (error) {
     console.error(`Error during feedback submission: ${error.message}`);
     await driver.takeScreenshot().then((image) => {
-      fs.writeFileSync('feedback_error_screenshot.png', image, 'base64');
+      fs.writeFileSync("feedback_error_screenshot.png", image, "base64");
     });
     // Proceed after error
-    console.log("Error detected. Will retry after 7 seconds.");
-    await driver.sleep(7000); // Wait for 7 seconds before retrying
+    console.log("Error detected. Will retry after 6 seconds.");
+    await driver.sleep(6000); // Wait for 6 seconds before retrying
   }
 }
 
 (async function main() {
   let driver;
   try {
-    driver = await new Builder().forBrowser('chrome').build();
+    driver = await new Builder().forBrowser("chrome").build();
     console.log("WebDriver initialized.");
 
     // Navigate to the login page
@@ -66,7 +74,9 @@ async function giveFeedback(driver, comment) {
     console.log("Navigated to the login page.");
 
     // Manual login
-    console.log("Please log in manually. The script will continue once you have logged in.");
+    console.log(
+      "Please log in manually. The script will continue once you have logged in."
+    );
     await driver.wait(async () => {
       const url = await driver.getCurrentUrl();
       return url.includes("my-classes");
@@ -90,8 +100,12 @@ async function giveFeedback(driver, comment) {
     while (true) {
       try {
         // Wait for feedback buttons to load and handle them one by one
-        const feedbackButtons = await driver.findElements(By.css("tr .classes-tutor-table__feedback .button"));
-        console.log(`Number of feedback buttons found: ${feedbackButtons.length}`);
+        const feedbackButtons = await driver.findElements(
+          By.css("tr .classes-tutor-table__feedback .button")
+        );
+        console.log(
+          `Number of feedback buttons found: ${feedbackButtons.length}`
+        );
 
         if (feedbackButtons.length === 0) {
           console.log("No feedback buttons found. Waiting for new students...");
@@ -103,20 +117,19 @@ async function giveFeedback(driver, comment) {
         for (let i = 0; i < feedbackButtons.length; i++) {
           await feedbackButtons[i].click();
           console.log(`Clicked feedback button for student ${i + 1}.`);
-          
+
           // Provide feedback for the student
-          await giveFeedback(driver, 'متعاون'); // You can change the comment as needed
+          await giveFeedback(driver, "متعاون"); // You can change the comment as needed
           console.log(`Feedback provided for student ${i + 1}.`);
 
           // Delay between feedback submissions
-          await driver.sleep(5000); // Ensure 7-second delay before moving to the next student
+          await driver.sleep(5000); // Ensure 5-second delay before moving to the next student
         }
-
       } catch (innerError) {
         console.error(`Error while processing students: ${innerError.message}`);
-        // Wait 7 seconds before retrying the entire process
-        await driver.sleep(7000);
-        console.log("Retrying after 7 seconds...");
+        // Wait 6 seconds before retrying the entire process
+        await driver.sleep(6000);
+        console.log("Retrying after 6 seconds...");
       }
     }
   } finally {
